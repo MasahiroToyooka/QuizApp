@@ -10,6 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // ４つの解答用ボタン
+    @IBOutlet weak var number1Button: UIButton!
+    @IBOutlet weak var number2Button: UIButton!
+    @IBOutlet weak var number3Button: UIButton!
+    @IBOutlet weak var number4Button: UIButton!
+    
+    
     var quizData: [[String: Any]] = [
         ["text": "日本の世界遺産『富士山－信仰の対象と芸術の源泉』は、2013年に（ ）として世界遺産登録されました。\n1. 文化遺産\n2. 自然遺産\n3. 山岳遺産\n4. 伝統遺産", "true": 1, "buttonNum": 4],
         ["text": "イタリア共和国の世界遺産『フィレンツェの歴史地区』のあるフィレンツェを中心に、17世紀に栄えた芸術運動は何でしょうか。\n1. シュルレアリスム\n2. アバンギャルド\n3. ルネサンス", "true": 3, "buttonNum": 3],
@@ -25,17 +32,88 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    // 問題の正誤判定するやつ
+    func checkAnswer(yourAnswer: Int) {
+        
+        let question = quizData[currentNum]
+        
+        print(currentNum)
+        
+        if yourAnswer == question["true"] as! Int{
+            currentNum += 1
+            trueNum += 1
+            
+            if currentNum >= quizData.count {
+                
+                let resultVC = ResultViewController()
+                // 値の受け渡しの処理
+                resultVC.correctNum = correctNum
+                resultVC.questionNum = questions.count
+                
+                // 結果発表画面にいく処理
+                navigationController?.pushViewController(resultVC, animated: true)
+                
+                // 数をリセットする
+                currentNum = 0
+                correctNum = 0
+                
+                setupQuiz()
+            } else {
+                setupQuiz()
+            }
+        } else {
+            currentNum += 1
+            
+            if currentNum >= questions.count {
+                
+                // ResultViewControllerのインスタンスの生成
+                let resultVC = ResultViewController()
+                // 値の受け渡しの処理
+                resultVC.correctNum = correctNum
+                resultVC.questionNum = questions.count
+                
+                // 結果発表画面にいく処理
+                navigationController?.pushViewController(resultVC, animated: true)
+                
+                // 数をリセットする
+                currentNum = 0
+                correctNum = 0
+                
+                setupQuiz()
+            } else {
+                setupQuiz()
+            }
+        }
+    }
     
+    // ボタンの設定
+    fileprivate func changeButtonNum() {
+        // 問題のボタンの数を取得
+        let numberOfButton: Int = quizData[currentNum]["buttonNum"] as! Int
+        
+        // ボタンの数に合わせて調節
+        switch numberOfButton {
+        case 1:
+            number2Button.isHidden = true
+            number3Button.isHidden = true
+            number4Button.isHidden = true
+        case 2:
+            number2Button.isHidden = false
+            number3Button.isHidden = true
+            number4Button.isHidden = true
+        case 3:
+            number2Button.isHidden = false
+            number3Button.isHidden = false
+            number4Button.isHidden = true
+        case 4:
+            number2Button.isHidden = false
+            number3Button.isHidden = false
+            number4Button.isHidden = false
+        default:
+            fatalError()
+        }
+    }
     
 
-    @IBAction func number1Button(_ sender: Any) {
-    }
-    @IBAction func number2Button(_ sender: Any) {
-    }
-    @IBAction func number3Button(_ sender: Any) {
-    }
-    
-    @IBAction func number4Button(_ sender: Any) {
-    }
 }
 

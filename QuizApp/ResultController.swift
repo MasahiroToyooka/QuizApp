@@ -11,6 +11,12 @@ import UIKit
 
 class ResultViewController: UITableViewController {
     
+    // クイズの問題数
+    var questionNum: Int?
+    
+    // 正解した問題の数
+    var correctNum: Int?
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }

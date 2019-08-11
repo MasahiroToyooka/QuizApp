@@ -28,9 +28,6 @@
                                         <state key="normal" title="1">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="number1Button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gOK-8w-3ld"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ug0-Fg-c9f">
                                         <rect key="frame" x="98.5" y="0.0" width="98.5" height="150"/>
@@ -39,9 +36,6 @@
                                         <state key="normal" title="2">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="number2Button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="W8W-ow-mPn"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEc-YR-2Vf">
                                         <rect key="frame" x="197" y="0.0" width="98.5" height="150"/>
@@ -50,9 +44,6 @@
                                         <state key="normal" title="3">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="number3Button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dtj-BI-XwZ"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9is-tg-CiD">
                                         <rect key="frame" x="295.5" y="0.0" width="98.5" height="150"/>
@@ -61,9 +52,6 @@
                                         <state key="normal" title="4">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="number4Button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mwG-Nu-LPz"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -92,6 +80,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="jep-RF-M9i"/>
                     <connections>
+                        <outlet property="number1Button" destination="I2W-Q9-OvJ" id="TxR-b1-EqP"/>
+                        <outlet property="number2Button" destination="ug0-Fg-c9f" id="G36-JA-Ces"/>
+                        <outlet property="number3Button" destination="nEc-YR-2Vf" id="pJn-u0-Uns"/>
+                        <outlet property="number4Button" destination="9is-tg-CiD" id="fDt-E2-TkS"/>
                         <segue destination="sfa-sb-s4W" kind="show" id="OH8-l5-kvG"/>
                     </connections>
                 </viewController>
