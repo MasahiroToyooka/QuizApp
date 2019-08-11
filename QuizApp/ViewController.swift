@@ -16,28 +16,32 @@ class ViewController: UIViewController {
     @IBOutlet weak var number3Button: UIButton!
     @IBOutlet weak var number4Button: UIButton!
     
+    // 問題表示用のテキストビュー
     @IBOutlet weak var quizText: UITextView!
     
-    
+    // クイズのデータ
     var quizData: [[String: Any]] = [
         ["text": "日本の世界遺産『富士山－信仰の対象と芸術の源泉』は、2013年に（ ）として世界遺産登録されました。\n1. 文化遺産\n2. 自然遺産\n3. 山岳遺産\n4. 伝統遺産", "true": 1, "buttonNum": 4],
         ["text": "イタリア共和国の世界遺産『フィレンツェの歴史地区』のあるフィレンツェを中心に、17世紀に栄えた芸術運動は何でしょうか。\n1. シュルレアリスム\n2. アバンギャルド\n3. ルネサンス", "true": 3, "buttonNum": 3],
         ["text": "2016年のオリンピック開催地であるリオ・デ・ジャネイロで、ブラジル独立100周年を記念して作られたキリスト像が立つ場所として、正しいものはどれか。\n1. コパカバーナの山\n2. コルコバードの丘", "true": 2, "buttonNum": 2],
     ]
     
+    // 解答結果をマルバツの文字列で格納する配列
+    var resultQuestion = [String]()
+    
     // 現在の問題番号
     var currentNum: Int = 0
-    
-    // 正解した問題の数
-    var trueNum: Int = 0
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupButtonAction()
-
+        setupQuiz()
     }
+    
+    
+    //MARK:- functions
+
     
     // 問題の正誤判定するやつ
     func checkAnswer(yourAnswer: Int) {
@@ -47,44 +51,52 @@ class ViewController: UIViewController {
         print(currentNum)
         
         if yourAnswer == question["true"] as! Int{
-            currentNum += 1
-            trueNum += 1
+            // 正解
             
+            currentNum += 1
+            resultQuestion.append("⭕️")
+            
+            // 最後の問題の時の処理
             if currentNum >= quizData.count {
                 
                 let resultVC = ResultViewController()
                 // 値の受け渡しの処理
-                resultVC.correctNum = correctNum
-                resultVC.questionNum = questions.count
+                
+                resultVC.resultQuestion = resultQuestion
+                resultVC.questionNum = quizData.count
                 
                 // 結果発表画面にいく処理
                 navigationController?.pushViewController(resultVC, animated: true)
                 
-                // 数をリセットする
+                // 値をリセットする
+                resultQuestion = []
                 currentNum = 0
-                trueNum = 0
                 
                 setupQuiz()
             } else {
                 setupQuiz()
             }
         } else {
+            // 不正解
+            
+            resultQuestion.append("❌")
             currentNum += 1
             
+            // 最後の問題の時の処理
             if currentNum >= quizData.count {
                 
                 // ResultViewControllerのインスタンスの生成
                 let resultVC = ResultViewController()
                 // 値の受け渡しの処理
-                resultVC.correctNum = trueNum
+                resultVC.resultQuestion = resultQuestion
                 resultVC.questionNum = quizData.count
                 
                 // 結果発表画面にいく処理
                 navigationController?.pushViewController(resultVC, animated: true)
                 
-                // 数をリセットする
+                // 値をリセットする
                 currentNum = 0
-                trueNum = 0
+                resultQuestion = []
                 
                 setupQuiz()
             } else {

@@ -11,18 +11,30 @@ import UIKit
 
 class ResultViewController: UITableViewController {
     
+    // 問題結果をマルバツで入れる配列
+    var resultQuestion = [String]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // タイトルを設定
+        navigationItem.title = "結果"
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
     // クイズの問題数
     var questionNum: Int?
     
-    // 正解した問題の数
-    var correctNum: Int?
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return questionNum ?? 0
     }
     
+    // セルの設定
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = "第\(indexPath.row + 1)問  \(resultQuestion[indexPath.row])"
         return cell
     }
     
