@@ -16,11 +16,26 @@ class ViewController: UIViewController {
         ["text": "2016年のオリンピック開催地であるリオ・デ・ジャネイロで、ブラジル独立100周年を記念して作られたキリスト像が立つ場所として、正しいものはどれか。\n1. コパカバーナの山\n2. コルコバードの丘", "true": 2, "buttonNum": 2],
     ]
     
+    var currentNum: Int = 0
+    
+    var trueNum: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    
+    
+    
 
-
+    @IBAction func number1Button(_ sender: Any) {
+    }
+    @IBAction func number2Button(_ sender: Any) {
+    }
+    @IBAction func number3Button(_ sender: Any) {
+    }
+    
+    @IBAction func number4Button(_ sender: Any) {
+    }
 }
 
