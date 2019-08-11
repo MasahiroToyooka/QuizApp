@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var number3Button: UIButton!
     @IBOutlet weak var number4Button: UIButton!
     
+    @IBOutlet weak var quizText: UITextView!
+    
     
     var quizData: [[String: Any]] = [
         ["text": "日本の世界遺産『富士山－信仰の対象と芸術の源泉』は、2013年に（ ）として世界遺産登録されました。\n1. 文化遺産\n2. 自然遺産\n3. 山岳遺産\n4. 伝統遺産", "true": 1, "buttonNum": 4],
@@ -23,13 +25,18 @@ class ViewController: UIViewController {
         ["text": "2016年のオリンピック開催地であるリオ・デ・ジャネイロで、ブラジル独立100周年を記念して作られたキリスト像が立つ場所として、正しいものはどれか。\n1. コパカバーナの山\n2. コルコバードの丘", "true": 2, "buttonNum": 2],
     ]
     
+    // 現在の問題番号
     var currentNum: Int = 0
     
+    // 正解した問題の数
     var trueNum: Int = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        setupButtonAction()
+
     }
     
     // 問題の正誤判定するやつ
@@ -55,7 +62,7 @@ class ViewController: UIViewController {
                 
                 // 数をリセットする
                 currentNum = 0
-                correctNum = 0
+                trueNum = 0
                 
                 setupQuiz()
             } else {
@@ -64,26 +71,39 @@ class ViewController: UIViewController {
         } else {
             currentNum += 1
             
-            if currentNum >= questions.count {
+            if currentNum >= quizData.count {
                 
                 // ResultViewControllerのインスタンスの生成
                 let resultVC = ResultViewController()
                 // 値の受け渡しの処理
-                resultVC.correctNum = correctNum
-                resultVC.questionNum = questions.count
+                resultVC.correctNum = trueNum
+                resultVC.questionNum = quizData.count
                 
                 // 結果発表画面にいく処理
                 navigationController?.pushViewController(resultVC, animated: true)
                 
                 // 数をリセットする
                 currentNum = 0
-                correctNum = 0
+                trueNum = 0
                 
                 setupQuiz()
             } else {
                 setupQuiz()
             }
         }
+    }
+    
+    // currentNumに合わせて問題をを更新
+    fileprivate func setupQuiz() {
+        // ボタンの数を変更します
+        changeButtonNum()
+        
+        // 問題を表示します
+        let questionText = quizData[currentNum]["text"] as! String
+        quizText.text = questionText
+        
+        // ナビゲーションタイトルを変更する
+        self.navigationItem.title = "第\(currentNum + 1)問"
     }
     
     // ボタンの設定
@@ -112,6 +132,28 @@ class ViewController: UIViewController {
         default:
             fatalError()
         }
+    }
+    
+    // ボタンが押された時の処理
+    fileprivate func setupButtonAction() {
+        number1Button.addTarget(self, action: #selector(buttonAction1), for: .touchUpInside)
+        number2Button.addTarget(self, action: #selector(buttonAction2), for: .touchUpInside)
+        number3Button.addTarget(self, action: #selector(buttonAction3), for: .touchUpInside)
+        number4Button.addTarget(self, action: #selector(buttonAction4), for: .touchUpInside)
+    }
+    
+    // ボタンのアクション設定
+    @objc func buttonAction1() {
+        checkAnswer(yourAnswer: 1)
+    }
+    @objc func buttonAction2() {
+        checkAnswer(yourAnswer: 2)
+    }
+    @objc func buttonAction3() {
+        checkAnswer(yourAnswer: 3)
+    }
+    @objc func buttonAction4() {
+        checkAnswer(yourAnswer: 4)
     }
     
 

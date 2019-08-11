@@ -84,6 +84,7 @@
                         <outlet property="number2Button" destination="ug0-Fg-c9f" id="G36-JA-Ces"/>
                         <outlet property="number3Button" destination="nEc-YR-2Vf" id="pJn-u0-Uns"/>
                         <outlet property="number4Button" destination="9is-tg-CiD" id="fDt-E2-TkS"/>
+                        <outlet property="quizText" destination="qyR-35-hSg" id="AYL-cL-zgs"/>
                         <segue destination="sfa-sb-s4W" kind="show" id="OH8-l5-kvG"/>
                     </connections>
                 </viewController>
