@@ -48,65 +48,40 @@ class ViewController: UIViewController {
         
         let question = quizData[currentNum]
         
-        print(currentNum)
         
         if yourAnswer == question["true"] as! Int{
             // 正解
             
             currentNum += 1
-            resultQuestion.append("⭕️")
+            
             
             // 最後の問題の時の処理
             if currentNum >= quizData.count {
                 
-                let resultVC = ResultViewController()
-                // 値の受け渡しの処理
-                
-                resultVC.resultQuestion = resultQuestion
-                resultVC.questionNum = quizData.count
-                
-                // 結果発表画面にいく処理
-                navigationController?.pushViewController(resultVC, animated: true)
-                
-                // 値をリセットする
-                resultQuestion = []
-                currentNum = 0
-                
-                setupQuiz()
+                showAlert(title: "正解", message: "次に進みます", result: true, last: true)
+
             } else {
-                setupQuiz()
+                showAlert(title: "正解", message: "次に進みます", result: true, last: false)
             }
         } else {
             // 不正解
             
-            resultQuestion.append("❌")
             currentNum += 1
             
             // 最後の問題の時の処理
             if currentNum >= quizData.count {
+                print("currentNum \(currentNum)")
                 
-                // ResultViewControllerのインスタンスの生成
-                let resultVC = ResultViewController()
-                // 値の受け渡しの処理
-                resultVC.resultQuestion = resultQuestion
-                resultVC.questionNum = quizData.count
-                
-                // 結果発表画面にいく処理
-                navigationController?.pushViewController(resultVC, animated: true)
-                
-                // 値をリセットする
-                currentNum = 0
-                resultQuestion = []
-                
-                setupQuiz()
+                showAlert(title: "不正解", message: "次に進みますか？", result: false, last: true)
+
             } else {
-                setupQuiz()
+                showAlert(title: "不正解", message: "次に進みますか？", result: false, last: false)
             }
         }
     }
     
     // currentNumに合わせて問題をを更新
-    fileprivate func setupQuiz() {
+    func setupQuiz() {
         // ボタンの数を変更します
         changeButtonNum()
         
@@ -119,7 +94,7 @@ class ViewController: UIViewController {
     }
     
     // ボタンの設定
-    fileprivate func changeButtonNum() {
+    func changeButtonNum() {
         // 問題のボタンの数を取得
         let numberOfButton: Int = quizData[currentNum]["buttonNum"] as! Int
         
@@ -147,7 +122,7 @@ class ViewController: UIViewController {
     }
     
     // ボタンが押された時の処理
-    fileprivate func setupButtonAction() {
+    func setupButtonAction() {
         number1Button.addTarget(self, action: #selector(buttonAction1), for: .touchUpInside)
         number2Button.addTarget(self, action: #selector(buttonAction2), for: .touchUpInside)
         number3Button.addTarget(self, action: #selector(buttonAction3), for: .touchUpInside)
@@ -168,6 +143,105 @@ class ViewController: UIViewController {
         checkAnswer(yourAnswer: 4)
     }
     
+    // アラートの表示
+    func showAlert(title: String, message: String, result: Bool, last: Bool) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        if last {
+            // 最後の問題の時
+            
+            // 答えの結果でアラートの内容を変える
+            if result {
+                // 正解した時のアラート
+                
+                // okボタン
+                let close = UIAlertAction(title: "OK", style: .default) { (_) in
+                    self.resultQuestion.append("⭕️")
+                    
+                    let resultVC = ResultViewController()
+                    
+                    // 値の受け渡しの処理
+                    resultVC.resultQuestion = self.resultQuestion
+                    resultVC.questionNum = self.quizData.count
+                    
+                    // 結果発表画面にいく処理
+                    self.navigationController?.pushViewController(resultVC, animated: true)
+                    
+                    // 値をリセットする
+                    self.currentNum = 0
+                    self.resultQuestion = []
+                    self.setupQuiz()
+                    self.setupQuiz()
+                }
+                
+                alert.addAction(close)
+            } else {
+                
+                // 不正解の時のアラート
+                
+                // もう一度ボタン
+                let again = UIAlertAction(title: "もう一度", style: .default) { (_) in
+                    self.currentNum -= 1
+                    self.setupQuiz()
+                }
+                
+                // okボタン
+                let close = UIAlertAction(title: "OK", style: .default) { (_) in
+                    self.resultQuestion.append("❌")
+                    let resultVC = ResultViewController()
+                    
+                    // 値の受け渡しの処理
+                    resultVC.resultQuestion = self.resultQuestion
+                    resultVC.questionNum = self.quizData.count
+                    
+                    // 結果発表画面にいく処理
+                    self.navigationController?.pushViewController(resultVC, animated: true)
+                    
+                    // 値をリセットする
+                    self.currentNum = 0
+                    self.resultQuestion = []
+                    self.setupQuiz()
+                }
+                alert.addAction(again)
+                alert.addAction(close)
+            }
+            
+          
+        } else {
+            // 最後の問題じゃない時
+            
+            // 答えの結果でアラートの内容を変える
+            if result {
+                // 正解した時のアラート
 
+                // okボタン
+                let close = UIAlertAction(title: "OK", style: .default) { (_) in
+                    self.resultQuestion.append("⭕️")
+                    self.setupQuiz()
+                }
+                
+                alert.addAction(close)
+            } else {
+                // 不正解の時のアラート
+                
+                // もう一度ボタン
+                let again = UIAlertAction(title: "もう一度", style: .default) { (_) in
+                    self.currentNum -= 1
+                    self.setupQuiz()
+                }
+                
+                // okボタン
+                let close = UIAlertAction(title: "OK", style: .default) { (_) in
+                    self.resultQuestion.append("❌")
+                    self.setupQuiz()
+                }
+                alert.addAction(again)
+                alert.addAction(close)
+            }
+        }
+
+        // アラートの表示
+        present(alert, animated: true, completion: nil)
+    }
 }
 
