@@ -20,7 +20,6 @@ class ResultViewController: UITableViewController {
         // タイトルを設定
         navigationItem.title = "結果"
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     // クイズの問題数
