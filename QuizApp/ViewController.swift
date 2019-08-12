@@ -70,7 +70,6 @@ class ViewController: UIViewController {
             
             // 最後の問題の時の処理
             if currentNum >= quizData.count {
-                print("currentNum \(currentNum)")
                 
                 showAlert(title: "不正解", message: "次に進みますか？", result: false, last: true)
 
@@ -158,15 +157,8 @@ class ViewController: UIViewController {
                 let close = UIAlertAction(title: "OK", style: .default) { (_) in
                     self.resultQuestion.append("⭕️")
                     
-                    let resultVC = ResultViewController()
-                    
-                    // 値の受け渡しの処理
-                    resultVC.resultQuestion = self.resultQuestion
-                    resultVC.questionNum = self.quizData.count
-                    
-                    // 結果発表画面にいく処理
-                    self.navigationController?.pushViewController(resultVC, animated: true)
-                    
+                    self.performSegue(withIdentifier: "toResult", sender: nil)
+
                     // 値をリセットする
                     self.currentNum = 0
                     self.resultQuestion = []
@@ -188,14 +180,8 @@ class ViewController: UIViewController {
                 // okボタン
                 let close = UIAlertAction(title: "OK", style: .default) { (_) in
                     self.resultQuestion.append("❌")
-                    let resultVC = ResultViewController()
-                    
-                    // 値の受け渡しの処理
-                    resultVC.resultQuestion = self.resultQuestion
-                    resultVC.questionNum = self.quizData.count
-                    
-                    // 結果発表画面にいく処理
-                    self.navigationController?.pushViewController(resultVC, animated: true)
+                   
+                    self.performSegue(withIdentifier: "toResult", sender: nil)
                     
                     // 値をリセットする
                     self.currentNum = 0
@@ -205,7 +191,6 @@ class ViewController: UIViewController {
                 alert.addAction(again)
                 alert.addAction(close)
             }
-            
           
         } else {
             // 最後の問題じゃない時
@@ -239,9 +224,20 @@ class ViewController: UIViewController {
                 alert.addAction(close)
             }
         }
-
         // アラートの表示
         present(alert, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+             // segueの識別子の確認
+        if segue.identifier == "toResult" {
+            // 次の画面を代入
+            let nextVC = segue.destination as! ResultViewController
+            // 値の受け渡し
+            nextVC.questionNum = quizData.count
+            nextVC.resultQuestion = resultQuestion
+        }
     }
 }
 

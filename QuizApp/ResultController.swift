@@ -24,11 +24,11 @@ class ResultViewController: UITableViewController {
     }
     
     // クイズの問題数
-    var questionNum: Int?
+    var questionNum: Int = 0
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return questionNum ?? 0
+        return questionNum
     }
     
     // セルの設定
